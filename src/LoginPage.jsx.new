@@ -1,0 +1,116 @@
+import React, { useState } from "react";
+
+const states = [
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi", "Jammu and Kashmir", "Ladakh"
+];
+
+const LoginPage = ({ onLogin }) => {
+  const [isSignup, setIsSignup] = useState(false);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    state: "",
+    district: ""
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (form.email && form.password && form.state && form.district) {
+      onLogin(form);
+    } else {
+      alert("Please fill all fields");
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-blue-800 to-cyan-700">
+      <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-lg w-full max-w-md border border-white/20">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">DisasterAI</h1>
+          <p className="text-white/70">Weather & Disaster Monitoring Platform</p>
+        </div>
+        
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold text-white">Location Details</h2>
+            <p className="text-white/60 text-sm">Select your location to monitor weather and receive alerts</p>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-white mb-1 text-sm font-medium">State</label>
+              <select 
+                name="state" 
+                value={form.state} 
+                onChange={handleChange} 
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                required
+              >
+                <option value="" className="text-gray-900">Select State</option>
+                {states.map((state) => (
+                  <option key={state} value={state} className="text-gray-900">{state}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-white mb-1 text-sm font-medium">District</label>
+              <input 
+                type="text" 
+                name="district" 
+                value={form.district} 
+                onChange={handleChange} 
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" 
+                placeholder="Enter your district"
+                required 
+              />
+            </div>
+
+            <div>
+              <label className="block text-white mb-1 text-sm font-medium">Email</label>
+              <input 
+                type="email" 
+                name="email" 
+                value={form.email} 
+                onChange={handleChange} 
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" 
+                placeholder="Enter your email"
+                required 
+              />
+            </div>
+
+            <div>
+              <label className="block text-white mb-1 text-sm font-medium">Password</label>
+              <input 
+                type="password" 
+                name="password" 
+                value={form.password} 
+                onChange={handleChange} 
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" 
+                placeholder="Enter your password"
+                required 
+              />
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-4 rounded-lg font-semibold hover:from-cyan-600 hover:to-blue-600 transition duration-300 shadow-lg"
+          >
+            {isSignup ? "Create Account" : "Continue"}
+          </button>
+
+          <p className="text-center text-sm text-white/70 hover:text-white cursor-pointer transition" onClick={() => setIsSignup(!isSignup)}>
+            {isSignup ? "Already have an account? Login" : "Don't have an account? Sign Up"}
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;

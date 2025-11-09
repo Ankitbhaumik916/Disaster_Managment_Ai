@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { AlertTriangle, MapPin, Bell, Users, TrendingUp, Settings, Home, MessageSquare } from 'lucide-react';
+import { AlertTriangle, MapPin, Bell, Users, TrendingUp, Settings, Home, MessageSquare, Droplets, Wind, Sun, Thermometer } from 'lucide-react';
 
-const DisasterRiskPlatform = () => {
+const DisasterRiskPlatform = ({ user, weather }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
   // TODO: Implement disaster detail view when a disaster is selected
   const [selectedDisaster, setSelectedDisaster] = useState(null);
@@ -47,9 +47,91 @@ const DisasterRiskPlatform = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{
-      background: 'linear-gradient(135deg, #1e1548 0%, #5B4B8A 25%, #E94E8C 75%, #FFB5C5 100%)'
-    }}>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-blue-800 to-cyan-700">
+      {/* Weather Info */}
+      {weather && (
+        <div className="max-w-7xl mx-auto px-6 pt-6">
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 mb-6 border border-white/20">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              {/* Main Weather Info */}
+              <div className="lg:col-span-4">
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  {user?.district}
+                </h2>
+                <p className="text-white/60 text-sm mb-6">{user?.state}, India</p>
+                
+                <div className="flex items-center space-x-6">
+                  <img 
+                    src={weather.current.condition.icon}
+                    alt={weather.current.condition.text}
+                    className="w-24 h-24"
+                  />
+                  <div>
+                    <div className="text-5xl font-bold text-white mb-2">
+                      {weather.current.temp_c}°C
+                    </div>
+                    <div className="text-lg text-white/80 capitalize">
+                      {weather.current.condition.text}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Weather Details Grid */}
+              <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                {/* Temperature Feel */}
+                <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/10">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Thermometer className="text-cyan-400" size={22} />
+                    <span className="text-white/80">Feels Like</span>
+                  </div>
+                  <div className="text-2xl font-semibold text-white">
+                    {weather.current.feelslike_c}°C
+                  </div>
+                </div>
+
+                {/* Humidity */}
+                <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/10">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Droplets className="text-cyan-400" size={22} />
+                    <span className="text-white/80">Humidity</span>
+                  </div>
+                  <div className="text-2xl font-semibold text-white">
+                    {weather.current.humidity}%
+                  </div>
+                </div>
+
+                {/* Wind */}
+                <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/10">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Wind className="text-cyan-400" size={22} />
+                    <span className="text-white/80">Wind</span>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-semibold text-white">
+                      {weather.current.wind_kph} km/h
+                    </div>
+                    <div className="text-white/60 text-sm">
+                      Direction: {weather.current.wind_dir}
+                    </div>
+                  </div>
+                </div>
+
+                {/* UV Index */}
+                <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/10">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Sun className="text-cyan-400" size={22} />
+                    <span className="text-white/80">UV Index</span>
+                  </div>
+                  <div className="text-2xl font-semibold text-white">
+                    {weather.current.uv}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Header */}
       <header className="bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
